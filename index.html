@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Edirear</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edirear - Video Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AZCnm2_8uSkYZxRgyc-sseIG2cUmjOuwqWUf_uGv6kb_Gn9V13yHbH9Yhp3aN7BJ7qqNVMMRjWURMejG&currency=USD"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="logo">
+                <i class="fab fa-youtube"></i>
+                <span>Edirear</span>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search videos..." id="search-input">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="top-nav-right">
+            <button id="call-btn"><i class="fas fa-phone"></i></button>
+            <button id="ai-assistant"><i class="fas fa-robot"></i></button>
+            <button id="dark-mode"><i class="fas fa-moon"></i></button>
+            <button id="install-btn" class="hidden"><i class="fas fa-download"></i></button>
+            <div id="google-signin"></div>
+        </div>
+    </nav>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav">
+        <div class="nav-items">
+            <a href="#" class="nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" data-page="shorts">
+                <i class="fas fa-bolt"></i>
+                <span>Shorts</span>
+            </a>
+            <a href="#" class="nav-item" data-page="subscriptions">
+                <i class="fas fa-heart"></i>
+                <span>Following</span>
+            </a>
+            <a href="#" class="nav-item" data-page="upload">
+                <i class="fas fa-plus-square"></i>
+                <span>Upload</span>
+            </a>
+            <a href="#" class="nav-item" data-page="you">
+                <i class="fas fa-user"></i>
+                <span>You</span>
+            </a>
+            <a href="#" class="nav-item" data-page="weather">
+                <i class="fas fa-cloud-sun"></i>
+                <span>Weather</span>
+            </a>
+            <a href="#" class="nav-item" data-page="shop">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Shop</span>
+            </a>
+            <a href="#" class="nav-item" data-page="images">
+                <i class="fas fa-image"></i>
+                <span>Images</span>
+            </a>
+            <a href="#" class="nav-item" data-page="playstore">
+                <i class="fab fa-google-play"></i>
+                <span>Play Store</span>
+            </a>
+            <a href="#" class="nav-item" data-page="books">
+                <i class="fas fa-book"></i>
+                <span>Books</span>
+            </a>
+            <div class="ad-section">
+                <h4>Advertisement</h4>
+                <div id="sidebar-ad">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key': '1bf36d80e0d7e2e4c2fadc0e7b709d0a',
+                            'format': 'iframe',
+                            'height': 250,
+                            'width': 300,
+                            'params': {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/1bf36d80e0d7e2e4c2fadc0e7b709d0a/invoke.js"></script>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-page="home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" data-page="shorts">
+            <i class="fas fa-bolt"></i>
+            <span>Shorts</span>
+        </a>
+        <a href="#" class="nav-item" data-page="upload">
+            <i class="fas fa-plus-square"></i>
+            <span>Upload</span>
+        </a>
+        <a href="#" class="nav-item" data-page="subscriptions">
+            <i class="fas fa-heart"></i>
+            <span>Following</span>
+        </a>
+        <a href="#" class="nav-item" data-page="you">
+            <i class="fas fa-user"></i>
+            <span>You</span>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <section id="home-page" class="page active">
+            <div class="categories-container">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="music">Music</button>
+                <button class="category-btn" data-category="gaming">Gaming</button>
+                <button class="category-btn" data-category="news">News</button>
+                <button class="category-btn" data-category="education">Education</button>
+                <button class="category-btn" data-category="sports">Sports</button>
+                <button class="category-btn" data-category="comedy">Comedy</button>
+                <button class="category-btn" data-category="technology">Technology</button>
+                <button class="category-btn" data-category="cooking">Cooking</button>
+                <button class="category-btn" data-category="travel">Travel</button>
+            </div>
+            <div class="video-grid" id="video-feed">
+                <!-- Videos will be loaded here -->
+            </div>
+            <div class="ad-container" id="home-ad">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': '1bf36d80e0d7e2e4c2fadc0e7b709d0a',
+                        'format': 'iframe',
+                        'height': 90,
+                        'width': 728,
+                        'params': {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/1bf36d80e0d7e2e4c2fadc0e7b709d0a/invoke.js"></script>
+            </div>
+        </section>
+
+        <!-- Search Results Page -->
+        <section id="search-page" class="page">
+            <div class="search-header">
+                <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+                <h2>Search Results</h2>
+            </div>
+            <div class="search-filters">
+                <select id="search-type">
+                    <option value="videos">Videos</option>
+                    <option value="apps">Apps</option>
+                    <option value="books">Books</option>
+                </select>
+                <input type="text" id="search-query" placeholder="Search...">
+                <button id="search-execute"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="search-history">
+                <h3>Recent Searches</h3>
+                <div id="search-history-list"></div>
+            </div>
+            <div class="search-results-container" id="search-results">
+                <!-- Search results will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Shorts Page -->
+        <section id="shorts-page" class="page">
+            <div class="shorts-container" id="shorts-feed">
+                <!-- Shorts will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Upload Page -->
+        <section id="upload-page" class="page">
+            <div class="upload-container">
+                <div class="upload-box">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag and drop videos here or click to browse</p>
+                    <input type="file" id="video-upload" accept="video/*">
+                    <div class="upload-details">
+                        <input type="text" placeholder="Video Title" id="video-title">
+                        <textarea placeholder="Description" id="video-description"></textarea>
+                        <select id="video-category">
+                            <option value="22">People & Blogs</option>
+                            <option value="20">Gaming</option>
+                            <option value="15">Pets & Animals</option>
+                            <option value="28">Science & Technology</option>
+                            <option value="10">Music</option>
+                        </select>
+                        <div class="monetization-options">
+                            <label>
+                                <input type="checkbox" id="enable-monetization" checked> Enable Monetization
+                            </label>
+                            <div id="monetization-details">
+                                <label>Ad Breaks (seconds):</label>
+                                <input type="number" id="ad-breaks" min="0" max="120" value="30">
+                            </div>
+                        </div>
+                        <button id="upload-btn">Upload to YouTube</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscriptions Page -->
+        <section id="subscriptions-page" class="page">
+            <h2>Following</h2>
+            <div class="subscriptions-grid" id="subscriptions-feed">
+                <!-- Subscriptions will be loaded here -->
+            </div>
+        </section>
+
+        <!-- You Page -->
+        <section id="you-page" class="page">
+            <div class="profile-header">
+                <img id="profile-pic" src="" alt="Profile">
+                <div class="profile-info">
+                    <h2 id="profile-name"></h2>
+                    <p id="subscriber-count"></p>
+                    <button id="edit-profile">Edit Profile</button>
+                    <button id="monetize-channel">Monetize Channel</button>
+                    <button id="withdraw-earnings">Withdraw Earnings</button>
+                    <button id="subscribe-premium">Subscribe Premium ($2/month)</button>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span id="video-count">0</span>
+                        <span>Videos</span>
+                    </div>
+                    <div class="stat">
+                        <span id="view-count">0</span>
+                        <span>Views</span>
+                    </div>
+                    <div class="stat">
+                        <span id="sub-count">0</span>
+                        <span>Subscribers</span>
+                    </div>
+                    <div class="stat">
+                        <span id="earnings-count">$0</span>
+                        <span>Earnings</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-content">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="videos">Videos</button>
+                    <button class="tab-btn" data-tab="history">History</button>
+                    <button class="tab-btn" data-tab="liked">Liked</button>
+                    <button class="tab-btn" data-tab="playlists">Playlists</button>
+                    <button class="tab-btn" data-tab="subscriptions">Subscriptions</button>
+                    <button class="tab-btn" data-tab="channel">Channel Settings</button>
+                    <button class="tab-btn" data-tab="monetization">Monetization</button>
+                    <button class="tab-btn" data-tab="analytics">Analytics</button>
+                    <button class="tab-btn" data-tab="bank">Bank Details</button>
+                </div>
+                <div class="tab-content active" id="videos-tab">
+                    <div class="video-grid" id="user-videos"></div>
+                </div>
+                <div class="tab-content" id="history-tab">
+                    <div class="video-grid" id="history-videos"></div>
+                </div>
+                <div class="tab-content" id="liked-tab">
+                    <div class="video-grid" id="liked-videos"></div>
+                </div>
+                <div class="tab-content" id="playlists-tab">
+                    <div class="playlist-grid" id="playlists-feed"></div>
+                </div>
+                <div class="tab-content" id="subscriptions-tab">
+                    <div class="channel-grid" id="channel-subscriptions"></div>
+                </div>
+                <div class="tab-content" id="channel-tab">
+                    <div class="channel-settings">
+                        <h3>Connect Your YouTube Channel</h3>
+                        <div class="form-group">
+                            <label for="channel-id">YouTube Channel ID or Username</label>
+                            <input type="text" id="channel-id" placeholder="Enter channel ID or @username">
+                            <button id="connect-channel">Connect Channel</button>
+                        </div>
+                        <div id="channel-status"></div>
+                    </div>
+                </div>
+                <div class="tab-content" id="monetization-tab">
+                    <div class="monetization-settings">
+                        <h3>Channel Monetization</h3>
+                        <div class="monetization-status">
+                            <p id="monetization-status-text">Status: Not Monetized</p>
+                            <button id="enable-monetization-btn">Enable Monetization</button>
+                        </div>
+                        <div class="monetization-details">
+                            <h4>Monetization Settings</h4>
+                            <div class="form-group">
+                                <label for="ad-types">Ad Types:</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="ad-types" value="display" checked> Display Ads</label>
+                                    <label><input type="checkbox" name="ad-types" value="overlay" checked> Overlay Ads</label>
+                                    <label><input type="checkbox" name="ad-types" value="skippable" checked> Skippable Video Ads</label>
+                                    <label><input type="checkbox" name="ad-types" value="non-skippable"> Non-skippable Video Ads</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ad-frequency">Ad Frequency (minutes):</label>
+                                <input type="number" id="ad-frequency" min="1" max="10" value="5">
+                            </div>
+                            <div class="ownership-notice">
+                                <p>This website is property of <strong>Shaaf Sajjad</strong>, The Rare Person, owner of <strong>Rear Industries</strong>.</p>
+                            </div>
+                            <button id="save-monetization">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="analytics-tab">
+                    <div class="analytics-container">
+                        <h3>Channel Analytics</h3>
+                        <div class="analytics-stats">
+                            <div class="stat-card">
+                                <h4>Total Views</h4>
+                                <p id="total-views">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Watch Time</h4>
+                                <p id="watch-time">0 hours</p>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Subscribers</h4>
+                                <p id="analytics-subs">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Estimated Earnings</h4>
+                                <p id="estimated-earnings">$0.00</p>
+                            </div>
+                        </div>
+                        <div class="analytics-charts">
+                            <canvas id="views-chart" width="400" height="200"></canvas>
+                            <canvas id="earnings-chart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="ad-performance">
+                            <h4>Ad Performance</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Impressions</th>
+                                        <th>Clicks</th>
+                                        <th>Revenue</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ad-performance-data">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="bank-tab">
+                    <div class="bank-details">
+                        <h3>Bank Details for Withdrawals</h3>
+                        <p>Add your bank account details to withdraw your earnings</p>
+                        <div class="form-group">
+                            <label for="bank-name">Bank Name</label>
+                            <input type="text" id="bank-name" placeholder="e.g. HBL, UBL, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-title">Account Title</label>
+                            <input type="text" id="account-title" placeholder="Account holder name">
+                        </div>
+                        <div class="form-group">
+                            <label for="account-number">Account Number</label>
+                            <input type="text" id="account-number" placeholder="Bank account number">
+                        </div>
+                        <div class="form-group">
+                            <label for="iban">IBAN</label>
+                            <input type="text" id="iban" placeholder="PKXX XXXX XXXX XXXX XXXX XXXX">
+                        </div>
+                        <button id="save-bank-details">Save Bank Details</button>
+                        <div id="bank-details-status"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Page -->
+        <section id="weather-page" class="page">
+            <div class="weather-header">
+                <h2>Weather Forecast</h2>
+                <div class="weather-search">
+                    <input type="text" id="weather-location" placeholder="Search city...">
+                    <button id="weather-search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="current-weather" id="current-weather">
+                <!-- Current weather will be loaded here -->
+            </div>
+            <h3>5-Day Forecast</h3>
+            <div class="forecast-container" id="forecast-container">
+                <!-- Forecast will be loaded here -->
+            </div>
+            <h3>Hourly Forecast</h3>
+            <div class="hourly-container" id="hourly-container">
+                <!-- Hourly forecast will be loaded here -->
+            </div>
+        </section>
+
+        <!-- AI Assistant Page -->
+        <section id="ai-page" class="page">
+            <div class="ai-header">
+                <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+                <h2>Edirear Assistant</h2>
+            </div>
+            <div class="chat-container">
+                <div id="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="user-message" placeholder="Ask me anything...">
+                    <button id="send-message"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Page -->
+        <section id="shop-page" class="page">
+            <div class="shop-header">
+                <h2>Edirear Shop</h2>
+                <div class="shop-search">
+                    <input type="text" id="shop-search-input" placeholder="Search products...">
+                    <button id="shop-search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="shop-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="electronics">Electronics</button>
+                <button class="category-btn" data-category="clothing">Clothing</button>
+                <button class="category-btn" data-category="home">Home</button>
+                <button class="category-btn" data-category="books">Books</button>
+            </div>
+            <div class="shop-grid" id="shop-grid">
+                <!-- Products will be loaded here -->
+            </div>
+            <div class="cart-indicator" id="cart-indicator">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
+            </div>
+            <div class="ad-container" id="shop-ad">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': '1bf36d80e0d7e2e4c2fadc0e7b709d0a',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/1bf36d80e0d7e2e4c2fadc0e7b709d0a/invoke.js"></script>
+            </div>
+        </section>
+
+        <!-- Images Page -->
+        <section id="images-page" class="page">
+            <div class="images-header">
+                <h2>Image Search & Download</h2>
+                <div class="images-search">
+                    <input type="text" id="images-search-input" placeholder="Search for images...">
+                    <button id="images-search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="image-grid" id="images-grid">
+                <!-- Images will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Play Store Page -->
+        <section id="playstore-page" class="page">
+            <div class="playstore-header">
+                <h2><i class="fab fa-google-play"></i> Play Store</h2>
+                <div class="playstore-search">
+                    <input type="text" id="playstore-search-input" placeholder="Search apps...">
+                    <button id="playstore-search-btn"><i class="fas fa-search"></i> Search</button>
+                </div>
+            </div>
+            <div class="playstore-grid" id="playstore-grid">
+                <!-- Apps will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Books Page -->
+        <section id="books-page" class="page">
+            <div class="books-header">
+                <h2><i class="fas fa-book"></i> Book Library</h2>
+                <div class="books-search">
+                    <input type="text" id="books-search-input" placeholder="Search books...">
+                    <button id="books-search-btn"><i class="fas fa-search"></i> Search</button>
+                </div>
+            </div>
+            <div class="books-grid" id="books-grid">
+                <!-- Books will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Book Reader Modal -->
+        <div id="book-reader-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="book-reader-header">
+                    <h2 id="book-reader-title"></h2>
+                    <div class="book-reader-controls">
+                        <button id="prev-page"><i class="fas fa-arrow-left"></i></button>
+                        <span id="current-page">Page 1</span>
+                        <button id="next-page"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="book-reader-content" id="book-reader-content">
+                    <!-- Book content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Page -->
+        <section id="checkout-page" class="page">
+            <div class="checkout-header">
+                <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+                <h2>Checkout</h2>
+            </div>
+            <div class="checkout-container">
+                <form id="checkout-form">
+                    <h3>Shipping Information</h3>
+                    <div class="form-group">
+                        <label for="full-name">Full Name</label>
+                        <input type="text" id="full-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">ZIP Code</label>
+                        <input type="text" id="zip" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select id="country" required>
+                            <option value="">Select Country</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="USA">United States</option>
+                            <option value="UK">United Kingdom</option>
+                        </select>
+                    </div>
+                    
+                    <h3>Payment Information</h3>
+                    <div class="form-group">
+                        <label for="card-name">Name on Card</label>
+                        <input type="text" id="card-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-expiry">Expiry Date</label>
+                        <input type="text" id="card-expiry" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-cvv">CVV</label>
+                        <input type="text" id="card-cvv" required>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div id="order-items"></div>
+                        <div class="order-total">
+                            <strong>Total: $<span id="order-total">0.00</span></strong>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="place-order-btn">Place Order</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Video Player Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="video-container">
+                <iframe id="video-player" frameborder="0" allowfullscreen></iframe>
+                <button id="mini-player-btn"><i class="fas fa-window-restore"></i></button>
+            </div>
+            <div class="ad-container" id="video-ad-container">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': '2d685b7c5c804cb416a2d6a5ff80c8b8',
+                        'format': 'iframe',
+                        'height': 250,
+                        'width': 300,
+                        'params': {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/2d685b7c5c804cb416a2d6a5ff80c8b8/invoke.js"></script>
+            </div>
+            <div class="video-info">
+                <h3 id="video-modal-title"></h3>
+                <div class="video-meta">
+                    <span id="video-views"></span>
+                    <span id="video-date"></span>
+                    <span id="video-likes"></span>
+                    <span id="video-comments"></span>
+                </div>
+                <div class="video-actions">
+                    <button class="action-btn like"><i class="fas fa-thumbs-up"></i></button>
+                    <button class="action-btn dislike"><i class="fas fa-thumbs-down"></i></button>
+                    <button class="action-btn share"><i class="fas fa-share"></i></button>
+                    <button class="action-btn save"><i class="fas fa-bookmark"></i></button>
+                    <button class="action-btn subscribe"><i class="fas fa-bell"></i> Subscribe</button>
+                </div>
+                <div class="channel-info">
+                    <img id="channel-img" src="" alt="Channel">
+                    <div class="channel-details">
+                        <h4 id="channel-name"></h4>
+                        <p id="channel-subs"></p>
+                    </div>
+                    <button class="subscribe-btn">Subscribe</button>
+                </div>
+                <div class="video-description" id="video-description"></div>
+            </div>
+            <div class="suggested-videos">
+                <h3>More Videos</h3>
+                <div class="suggested-grid" id="suggested-videos"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini Player -->
+    <div id="mini-player" class="mini-player">
+        <div class="mini-player-content">
+            <iframe id="mini-player-iframe" frameborder="0" allowfullscreen></iframe>
+            <button id="close-mini-player"><i class="fas fa-times"></i></button>
+            <button id="expand-mini-player"><i class="fas fa-expand"></i></button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="product-detail" id="product-detail"></div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="order-confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="order-confirmation">
+                <i class="fas fa-check-circle"></i>
+                <h2>Order Confirmed!</h2>
+                <p>Thank you for your purchase. A confirmation email has been sent to your email address.</p>
+                <p>Order ID: <span id="order-id"></span></p>
+                <button class="continue-shopping-btn">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monetization Modal -->
+    <div id="monetization-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="monetization-form">
+                <h2>Enable Channel Monetization</h2>
+                <p>By enabling monetization, ads will be shown on your videos and you'll start earning revenue immediately.</p>
+                <div class="form-group">
+                    <label for="adsense-account">AdSense Account (optional):</label>
+                    <input type="text" id="adsense-account" placeholder="AdSense Publisher ID">
+                </div>
+                <div class="form-group">
+                    <label for="payment-email">Payment Email:</label>
+                    <input type="email" id="payment-email" required>
+                </div>
+                <button id="submit-monetization">Enable Monetization</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdrawal Modal -->
+    <div id="withdrawal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="withdrawal-form">
+                <h2>Withdraw Earnings</h2>
+                <div class="withdrawal-info">
+                    <p>Available Balance: <strong>$<span id="available-balance">0.00</span></strong></p>
+                    <p>Minimum Withdrawal: $10.00</p>
+                </div>
+                <div class="form-group">
+                    <label for="withdraw-amount">Amount to Withdraw ($):</label>
+                    <input type="number" id="withdraw-amount" min="10" step="0.01" placeholder="Enter amount">
+                </div>
+                <div class="bank-details-preview">
+                    <h4>Bank Details</h4>
+                    <p id="bank-name-preview">Not provided</p>
+                    <p id="account-title-preview">Not provided</p>
+                    <p id="account-number-preview">Not provided</p>
+                    <p id="iban-preview">Not provided</p>
+                    <button id="edit-bank-details">Edit Bank Details</button>
+                </div>
+                <button id="submit-withdrawal">Request Withdrawal</button>
+                <div id="withdrawal-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Subscription Modal -->
+    <div id="premium-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="premium-form">
+                <h2>Edirear Premium Subscription</h2>
+                <p>Upgrade to Premium for $2/month to unlock all features including ad-free experience</p>
+                <div id="paypal-button-container"></div>
+                <p class="premium-benefits">
+                    <i class="fas fa-check"></i> Ad-free experience<br>
+                    <i class="fas fa-check"></i> Premium badge<br>
+                    <i class="fas fa-check"></i> Early access to new features
+                </p>
+                <div id="premium-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Modal -->
+    <div id="call-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="call-container">
+                <h2>Make a Call</h2>
+                <div class="form-group">
+                    <label for="call-number">Phone Number:</label>
+                    <input type="tel" id="call-number" placeholder="Enter phone number" required>
+                </div>
+                <button id="start-call-btn">Call</button>
+                <div id="call-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incoming Call Modal -->
+    <div id="incoming-call-modal" class="modal">
+        <div class="modal-content">
+            <div class="incoming-call">
+                <h2>Incoming Call</h2>
+                <p id="caller-number"></p>
+                <div class="call-buttons">
+                    <button id="accept-call-btn"><i class="fas fa-phone"></i> Accept</button>
+                    <button id="reject-call-btn"><i class="fas fa-phone-slash"></i> Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Call Modal -->
+    <div id="active-call-modal" class="modal">
+        <div class="modal-content">
+            <div class="active-call">
+                <h2>Call in Progress</h2>
+                <p id="active-call-number"></p>
+                <div class="call-timer" id="call-timer">00:00</div>
+                <button id="end-call-btn"><i class="fas fa-phone-slash"></i> End Call</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
